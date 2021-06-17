@@ -15,86 +15,53 @@ print("Diretório de trabalho: ", os.getcwd())
 
 # Arquivos necessários
 
+def cvt(gray_bgr):
+    return cv2.cvtColor(gray_bgr, cv2.COLOR_BGR2GRAY)
+
 ## Inicio dos valores de conferencia
 ## USe isto para testar seu programa
 
-simples = cv2.imread("cruz_branca_negra_simples.png")
-simples = cv2.cvtColor(simples, cv2.COLOR_BGR2GRAY)
 
-check1_brancas_simples = [(4, 10), (8, 10), (12, 10), (16, 10), (20, 10)]
-check1_negras_simples = [(4, 20), (8, 20), (12, 20), (16, 20), (20, 20)]
+padrao_gabarito = cv2.imread("p2b_exemplo_mini_8_8.png")
+imagem_gabarito = cv2.imread("p2b_exemplo.png")
 
-
-brancas_negras = cv2.imread("cruz_branca_negra_simples.png")
-brancas_negras = cv2.cvtColor(brancas_negras, cv2.COLOR_BGR2GRAY)
-
-check2_brancas = [(4, 3), (4, 15), (8, 3), (8, 15), (12, 3), (12, 15), (16, 3), (16, 15), (20, 3), (20, 15)]
-check2_negras =  [(4, 6), (4, 12), (8, 6), (8, 12), (12, 6), (12, 12), (16, 6), (16, 12), (20, 6), (20, 12)]
-check2_brancasnegras = [(4, 3), (8, 3), (12, 3), (16, 3), (20, 3)]
-check2_negrasbrancas = [(4, 12), (8, 12), (12, 12), (16, 12), (20, 12)]
-
-
-quad = cv2.imread("exemplo_quadrante_75_100_125_150.png")
-quad = cv2.cvtColor(quad, cv2.COLOR_BGR2GRAY)
-
-
-# Valores para dentro da região cinza 75
-
-brancas75 =[(5, 5), (5, 17), (9, 5), (9, 17), (13, 5), (13, 17)]
-negras75 = [(5, 8), (5, 14), (9, 8), (9, 14), (13, 8), (13, 14)]
-brancasnegras75 = [(5, 14), (9, 14), (13, 14)]
-negrasbrancas75 = [(5, 5), (9, 5), (13, 5)]
-
-
-# Valores para dentro da região cinza 100
-
-brancas100 =[(5, 27), (5, 39), (9, 27), (9, 39), (13, 27), (13, 39)]
-
-negras100 = [(5, 30), (5, 36), (9, 30), (9, 36), (13, 30), (13, 36)]
-
-brancasnegras100 = [(5, 36), (9, 36), (13, 36)]
-
-negrasbrancas100 = [(5, 27), (9, 27), (13, 27)]
-
-
-# Valores para dentro da região cinza 125
-
-brancas125=[(27, 5), (27, 17), (31, 5), (31, 17), (35, 5), (35, 17), (39, 5), (39, 17)]
-negras125 =  [(27, 8), (27, 14), (31, 8), (31, 14), (35, 8), (35, 14), (39, 8), (39, 14)]
-brancasnegras125 = [(27, 14), (31, 14), (35, 14), (39, 14)]
-negrasbrancas125  = [(27, 5), (31, 5), (35, 5), (39, 5)]
-
-# Valores para dentro da região cinza 150
-
-brancas150 =[(27, 27), (27, 39), (31, 27), (31, 39), (35, 27), (35, 39), (39, 27), (39, 39)]
-negras150 = [(27, 30), (27, 36), (31, 30), (31, 36), (35, 30), (35, 36), (39, 30), (39, 36)]
-brancasnegras150 = [(27, 36), (31, 36), (35, 36), (39, 36)]
-negrasbrancas150 = [(27, 27), (31, 27), (35, 27), (39, 27)]
+padrao_gabarito = cvt(padrao_gabarito)
+imagem_gabarito = cvt(imagem_gabarito)
 
 # Fim dos valores de conferencia
 
+padrao1 = cv2.imread("q2_img_1_mini.png")
+padrao2 = cv2.imread("q2_img_2_mini.png")
+padrao3 = cv2.imread("q2_img_3_mini.png")
+
+padroes = [padrao1, padrao2, padrao3]
+
+padroes = [cvt(img) for img in padroes]
+
+teste1 = cv2.imread("q2_img_1.png")
+teste2 = cv2.imread("q2_img_2.png")
+teste3 = cv2.imread("q2_img_3.png")
+
+frames = [teste1, teste2, teste3]
+
+frames = [cvt(f) for f in frames]
 
 
-teste1 = cv2.imread("q1_final_v1.png")
-teste2 = cv2.imread("q1_final_v2.png")
-
-frames = [teste1, teste2]
 
 
 
 
 # Trabalhe nesta função
 # Pode criar e chamar novas funções o quanto quiser
-def processa(frame_gray): 
+def procura(frame_gray, imagem8x8gray): 
+    """ Recebe uma imagem grande e uma sub imagem e devolve um dicionário com chaves 4, 8 e 16
+        em cada posição contendo uma lista de tuplas i,j com os encontros daquelas resolucoes
+    """      
     
-    l_brancas = []
-    l_negras = []
-    l_brancas_negras = []
-    l_negras_brancas = []
-    
-    color = cv2.cvtColor(frame_gray, cv2.COLOR_GRAY2BGR)        
-    
-    return l_brancas, l_negras, l_brancas_negras, l_negras_brancas, color
+    # Esta é apenas a saída para a imagem de teste. Obviamente você deve criar o seu
+    return {16: [(9, 14), (16, 9), (11, 1), (3, 16), (10, 4), (3, 14), (2, 6)],
+ 4: [(3, 10), (1, 4), (10, 2), (5, 2), (11, 9), (12, 11)],
+ 8: [(3, 5), (9, 5), (7, 14)]}
 
 ## Adicionados DEPOIS da prova para melhorar a clareza
 
@@ -119,23 +86,19 @@ if __name__ == "__main__":
     
     print("Se a janela com a imagem não aparecer em primeiro plano dê Alt-Tab")
 
-    print("No código-fonte há imagens de testes com GABARITOS. Temos também um notebook de rascunho na pasta")
-
-
-    for frame in bgr: 
-        # Capture frame-by-frame
-
-        # Our operations on the frame come here
-        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-        # Você vai trabalhar na função processa!
-        brancas, negras, l_brancas_negras, l_negras_brancas, saida_color = processa(gray)
 
         
-        saida_color = resize_big_color(saida_color, 4)
+    for i in range(len(frames)):
+        dicionario = procura(frames[i], padroes[i])
+        print("resultado encontrado", dicionario)
+
+        imagem_grande = resize_big(frames[i], 2)
+        padrao_grande = resize_big(padroes[i], 16 )
+
+
         # NOTE que em testes a OpenCV 4.0 requereu frames em BGR para o cv2.imshow
-        cv2.imshow('imagem processada', saida_color)
+        cv2.imshow('Imagem de entrada', imagem_grande)
+        cv2.imshow('Padrao', padrao_grande)
 
         if cv2.waitKey(1500) & 0xFF == ord('q'):
             break
