@@ -89,7 +89,7 @@ Em seguida faça o [catkin_make](./instrucoes_setup.md).
 
 ## Questão 1 (5.00 pontos)
 
-<img src="./img/arucos_cores.png" width=100%></img>
+<img src="./img/arucos_cores_v2.png" width=75%></img>
 
 
 Seu robô está no cenário visível abaixo:
